@@ -1,6 +1,6 @@
 ﻿using Data.Entities.Base;
 using Data.Entities.Customers;
-using Data.Enums;
+using Data.Enums.OrderStatuses;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 

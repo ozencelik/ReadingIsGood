@@ -1,4 +1,4 @@
-﻿namespace Data.Enums
+﻿namespace Data.Enums.OrderStatuses
 {
     public enum OrderStatus
     {
