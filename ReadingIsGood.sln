@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "src\Api\Api.csproj",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.UnitTest", "test\Data.Test\Data.UnitTest.csproj", "{A1DC1AAB-F3B1-48C1-932B-7866C3125DB1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.Test", "test\Api.Test\Api.Test.csproj", "{B6CC5B54-55C3-4B2D-9A3B-2CF17E1D3766}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.IntegrationTest", "test\Api.Test\Api.IntegrationTest.csproj", "{B6CC5B54-55C3-4B2D-9A3B-2CF17E1D3766}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.IntegrationTest", "test\Core.Test\Core.IntegrationTest.csproj", "{DE7E356E-7C7D-491A-A276-279538636203}"
 EndProject

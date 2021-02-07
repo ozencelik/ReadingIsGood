@@ -27,6 +27,7 @@ namespace Core.Infrastructure
             {
                 var context = serviceProvider.GetRequiredService<AppDbContext>();
                 context.Database.EnsureCreated();
+                Seeder.Initialize(serviceProvider);
             }
         }
         #endregion
