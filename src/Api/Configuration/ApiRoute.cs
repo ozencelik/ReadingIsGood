@@ -8,7 +8,7 @@
 
         public const string Base = Root + "/" + Version;
 
-        public const string CustomerBase = Base + "/customer/";
+        public const string CustomerBase = Base + "/customer";
 
         public static class Customers
         {

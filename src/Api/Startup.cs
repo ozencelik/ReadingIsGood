@@ -46,12 +46,16 @@ namespace Api
             services.AddSingleton(mappingConfig.CreateMapper());
             #endregion
 
-            #region Db
-            services.EnsureDatabaseCreated();
-            #endregion
-
             #region Dependencies
             services.RegisterDependencies();
+            #endregion
+
+            #region Db
+            //Add Db Connection
+            string connectionString = Configuration.GetConnectionString("live_readingisgood");
+            services.AddDbContext(connectionString);
+
+            services.EnsureDatabaseCreated();
             #endregion
 
             #region JWT

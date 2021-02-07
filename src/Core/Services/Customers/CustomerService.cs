@@ -101,6 +101,9 @@ namespace Core.Services.Customers
 
         public async Task<int> InsertCustomerAsync(Customer customer)
         {
+            if (customer is null)
+                throw new ArgumentNullException("Customer is required");
+
             return await _customerRepository.InsertAsync(customer);
         }
 
@@ -161,8 +164,8 @@ namespace Core.Services.Customers
         }
         #endregion
 
-        #region Private Helper Methods
-        private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        #region Helper Methods
+        public static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             if (password == null)
                 throw new ArgumentNullException("password");
@@ -175,7 +178,7 @@ namespace Core.Services.Customers
             passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
         }
 
-        private static bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
+        public static bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
         {
             if (password == null)
                 throw new ArgumentNullException("password");
@@ -187,7 +190,7 @@ namespace Core.Services.Customers
                 throw new ArgumentException("Invalid length of password hash (64 bytes expected).", "passwordHash");
 
             if (storedSalt.Length != 128)
-                throw new ArgumentException("Invalid length of password salt (128 bytes expected).", "passwordHash");
+                throw new ArgumentException("Invalid length of password salt (128 bytes expected).", "passwordSalt");
 
             using (var hmac = new HMACSHA512(storedSalt))
             {
