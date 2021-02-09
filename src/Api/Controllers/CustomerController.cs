@@ -41,38 +41,38 @@ namespace Api.Controllers
         #region Methods
 
         [HttpGet(ApiRoutes.Customers.GetById)]
-        public async Task<OperationResult<GetCustomerDto>> GetCustomer(int customerId)
+        public async Task<IActionResult> GetCustomer(int customerId)
         {
             if (customerId <= 0)
-                return OperationResult<GetCustomerDto>.CreateFailure("Customer id must be greater than zero.");
+                return BadRequest("Customer id must be greater than zero.");
 
             // Get customer
             var customer = await _customerService.GetCustomerByIdAsync(customerId);
 
             return customer is null ?
-                OperationResult<GetCustomerDto>.CreateFailure("Customer not found !!!") :
-                OperationResult<GetCustomerDto>.CreateSuccessResult(_mapper.Map<GetCustomerDto>(customer));
+                BadRequest("Customer not found !!!") :
+                Ok(_mapper.Map<GetCustomerDto>(customer));
         }
 
         [AllowAnonymous]
         [HttpPost(ApiRoutes.Customers.Login)]
-        public async Task<OperationResult<object>> Login([FromBody] LoginCustomerDto model)
+        public async Task<IActionResult> Login([FromBody] LoginCustomerDto model)
         {
             if (model is null)
-                return OperationResult<object>.CreateFailure("Model cannot be null.");
+                return BadRequest("Model cannot be null.");
 
             if (string.IsNullOrEmpty(model.Username))
-                return OperationResult<object>.CreateFailure("Username cannot be null.");
+                return BadRequest("Username cannot be null.");
 
             if (string.IsNullOrEmpty(model.Password))
-                return OperationResult<object>.CreateFailure("Password cannot be null.");
+                return BadRequest("Password cannot be null.");
 
             try
             {
                 var customer = await _customerService.LoginCustomerWithUsernameAsync(model.Username, model.Password);
 
                 if (customer is null)
-                    return OperationResult<object>.CreateFailure("Customername or password is incorrect");
+                    return BadRequest("Customername or password is incorrect");
 
 
                 var tokenHandler = new JwtSecurityTokenHandler();
@@ -90,7 +90,7 @@ namespace Api.Controllers
                 var tokenString = tokenHandler.WriteToken(token);
 
                 // return basic customer info and authentication token
-                return OperationResult<object>.CreateSuccessResult(new
+                return Ok(new
                 {
                     Id = customer.Id,
                     Username = customer.Username,
@@ -100,24 +100,24 @@ namespace Api.Controllers
             }
             catch (Exception ex)
             {
-                return OperationResult<object>.CreateFailure(ex);
+                return BadRequest(ex);
             }
         }
 
         [AllowAnonymous]
         [HttpPost(ApiRoutes.Customers.Register)]
-        public async Task<OperationResult<string>> Register([FromBody] CreateCustomerDto model)
+        public async Task<IActionResult> Register([FromBody] CreateCustomerDto model)
         {
             if (model is null)
-                return OperationResult<string>.CreateFailure("Model cannot be null.");
+                return BadRequest(nameof(model));
 
             if (string.IsNullOrEmpty(model.Username))
-                return OperationResult<string>.CreateFailure("Customername cannot be null.");
+                return BadRequest("Username cannot be null.");
 
             var existCustomerByCustomername = await _customerService.GetCustomerByUsernameAsync(model.Username);
 
             if (existCustomerByCustomername != null)
-                return OperationResult<string>.CreateFailure("This customer is already exist !!!\nPlease use different email and customername.");
+                return Content("This customer is already exist !!!\nPlease use different email and customername.");
 
             try
             {
@@ -129,10 +129,10 @@ namespace Api.Controllers
             }
             catch (Exception ex)
             {
-                return OperationResult<string>.CreateFailure(ex);
+                return Ok("Customer not registered.");
             }
 
-            return OperationResult<string>.CreateSuccessResult("Customer registered ✔");
+            return Ok("Customer registered ✔");
         }
         #endregion
     }

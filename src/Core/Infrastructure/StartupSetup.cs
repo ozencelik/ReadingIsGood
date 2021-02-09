@@ -1,13 +1,9 @@
-﻿using Core.Events.Consumers;
+﻿using Core.Services.Books;
 using Core.Services.Customers;
 using Data.Context;
 using Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 
 namespace Core.Infrastructure
 {
@@ -24,6 +20,7 @@ namespace Core.Infrastructure
             services.AddScoped(typeof(IRepository<>), typeof(EfCoreRepository<>));
 
             services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<IBookService, BookService>();
         }
 
         public static void EnsureDatabaseCreated(this IServiceCollection services)

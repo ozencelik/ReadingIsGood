@@ -10,6 +10,15 @@
 
         private const string CustomerBase = Base + "/customer";
 
+        private const string BookBase = Base + "/book";
+
+        public static class Books
+        {
+            public const string GetAll = BookBase;
+
+            public const string GetById = BookBase + "/{bookId}";
+        }
+
         public static class Customers
         {
             public const string Delete = CustomerBase;
