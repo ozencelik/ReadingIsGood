@@ -21,9 +21,6 @@ namespace Core.Infrastructure
 
         public static void RegisterDependencies(this IServiceCollection services)
         {
-            var consumers = GetConsumersToInject().ToList();
-            services.InjectEventConsumers(consumers);
-
             services.AddScoped(typeof(IRepository<>), typeof(EfCoreRepository<>));
 
             services.AddScoped<ICustomerService, CustomerService>();
@@ -36,34 +33,6 @@ namespace Core.Infrastructure
                 var context = serviceProvider.GetRequiredService<AppDbContext>();
                 context.Database.EnsureCreated();
                 Seeder.Initialize(serviceProvider);
-            }
-        }
-        #endregion
-
-        #region Helper Methods
-
-        public static IEnumerable<Type> GetConsumersToInject()
-        {
-            var type = typeof(IConsumer<>);
-            var types = new List<Type>();
-            foreach (Type mytype in Assembly.GetExecutingAssembly().GetTypes()
-                .Where(mytype => mytype.GetInterfaces().Contains(type)))
-            {
-                types.Add(mytype);
-            }
-            /*
-            var types = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(x => x.GetTypes())
-                .Where(x => type.IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract);
-            */
-            return types;
-        }
-
-        private static void InjectEventConsumers(this IServiceCollection services, IEnumerable<Type> consumers)
-        {
-            foreach (var consumer in consumers)
-            {
-                services.AddSingleton(consumer, typeof(IConsumer<>));
             }
         }
         #endregion
