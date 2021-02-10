@@ -52,7 +52,7 @@ namespace Api.Controllers
             if (orderId <= 0)
                 return BadRequest("Order id must be greater than zero.");
 
-            var customer = await _customerService.GetCurrentCustomerAsync();
+            var customer = await GetCurrentCustomerAsync();
             if (customer is null)
                 return NotFound("No authenticated customer found !!!");
 
@@ -106,13 +106,13 @@ namespace Api.Controllers
             return Ok("Order created ✔");
         }
 
-        [HttpPost(ApiRoutes.Orders.Update)]
+        [HttpPut(ApiRoutes.Orders.Update)]
         public async Task<IActionResult> Update([FromBody] UpdateOrderDto model)
         {
             if (model is null)
                 return BadRequest(nameof(model));
 
-            var customerId = _customerService.CustomerId;
+            var customerId = GetCurrentCustomerId();
             var order = await _orderService.GetCustomerOrderByIdAsync(model.Id, customerId);
 
             if (order is null)
@@ -136,6 +136,27 @@ namespace Api.Controllers
         #endregion
 
         #region Private Helper Methods
+        private int GetCurrentCustomerId()
+        {
+            var customerId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(customerId))
+                return default;
+
+            int.TryParse(customerId, out int result);
+            return result;
+        }
+
+        private async Task<Customer> GetCurrentCustomerAsync()
+        {
+            var currentUserId = GetCurrentCustomerId();
+
+            if (currentUserId is 0)
+                return default;
+
+            return await _customerService.GetCustomerByIdAsync(currentUserId);
+        }
+
         private async Task<Order> PrepareOrderToCheckout(CreateOrderDto model, Customer customer)
         {
             if (model is null || customer is null)

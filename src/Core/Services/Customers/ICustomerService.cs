@@ -19,18 +19,6 @@ namespace Core.Services.Customers
         Task<IList<Customer>> GetAllCustomersAsync();
 
         /// <summary>
-        /// Gets authenticated customer id
-        /// </summary>
-        /// <returns>Customer</returns>
-        int GetCurrentCustomerId();
-
-        /// <summary>
-        /// Gets authenticated customer
-        /// </summary>
-        /// <returns>Customer</returns>
-        Task<Customer> GetCurrentCustomerAsync();
-
-        /// <summary>
         /// Gets a customer
         /// </summary>
         /// <param name="customerId">Customer identifier</param>
@@ -73,14 +61,5 @@ namespace Core.Services.Customers
         /// <param name="password">Password</param>
         /// <returns>Customer Id</returns>
         Task<int> UpdateCustomerAsync(Customer customer, string password = null);
-
-
-
-        #region Properties
-        /// <summary>
-        /// Authenticated customer id
-        /// </summary>
-        int CustomerId { get; }
-        #endregion
     }
 }
