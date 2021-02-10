@@ -1,6 +1,7 @@
 ﻿using Core.Services.Customers;
 using Data.Entities.Customers;
 using Data.Repositories;
+using Microsoft.AspNetCore.Http;
 using NSubstitute;
 using System;
 using Xunit;
@@ -14,7 +15,8 @@ namespace Core.Test.ServicesTest
         {
             // Arrange
             var customerRepository = Substitute.For<IRepository<Customer>>();
-            var customerService = new CustomerService(customerRepository);
+            var httpContextAccesor = Substitute.For<IHttpContextAccessor>();
+            var customerService = new CustomerService(customerRepository, httpContextAccesor);
 
             // Act & Assert
             Assert.ThrowsAsync<ArgumentNullException>(() => customerService.InsertCustomerAsync(null));

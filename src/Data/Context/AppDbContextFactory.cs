@@ -6,8 +6,6 @@ namespace Data.Context
 {
     public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
-
         public AppDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
@@ -19,7 +17,7 @@ namespace Data.Context
                 "Connect Timeout=3600;" +
                 "SslMode=Required");
 
-            return new AppDbContext(optionsBuilder.Options, _httpContextAccessor);
+            return new AppDbContext(optionsBuilder.Options);
         }
     }
 }
