@@ -50,7 +50,7 @@ namespace Api.Controllers
             var customer = await _customerService.GetCustomerByIdAsync(customerId);
 
             return customer is null ?
-                BadRequest("Customer not found !!!") :
+                NotFound("Customer not found !!!") :
                 Ok(_mapper.Map<GetCustomerDto>(customer));
         }
 

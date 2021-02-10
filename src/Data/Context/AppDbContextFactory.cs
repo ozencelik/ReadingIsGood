@@ -1,10 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
 namespace Data.Context
 {
     public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
     {
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
         public AppDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
@@ -16,7 +19,7 @@ namespace Data.Context
                 "Connect Timeout=3600;" +
                 "SslMode=Required");
 
-            return new AppDbContext(optionsBuilder.Options);
+            return new AppDbContext(optionsBuilder.Options, _httpContextAccessor);
         }
     }
 }

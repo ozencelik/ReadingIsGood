@@ -7,7 +7,7 @@ namespace Data.Entities.Base
         /// <summary>
         /// Created date of an entity
         /// </summary>
-        public DateTime Created { get; protected set; } = DateTime.Now;
+        public DateTime Created { get; set; } = DateTime.Now;
 
         /// <summary>
         /// Created customer of an entity

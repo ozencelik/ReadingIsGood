@@ -8,9 +8,11 @@
 
         private const string Base = Root + "/" + Version;
 
+        private const string BookBase = Base + "/book";
+
         private const string CustomerBase = Base + "/customer";
 
-        private const string BookBase = Base + "/book";
+        private const string OrderBase = Base + "/order";
 
         public static class Books
         {
@@ -32,6 +34,19 @@
             public const string Register = CustomerBase + "/register";
 
             public const string Update = CustomerBase;
+        }
+
+        public static class Orders
+        {
+            public const string Cancel = OrderBase;
+
+            public const string GetMyOrders = OrderBase;
+
+            public const string GetById = OrderBase + "/{orderId}";
+
+            public const string Checkout = OrderBase + "/checkout";
+
+            public const string Update = OrderBase + "/update";
         }
 
         public static class AuditLogs

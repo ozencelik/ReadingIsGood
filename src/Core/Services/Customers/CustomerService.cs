@@ -1,9 +1,11 @@
 ﻿using Data.Entities.Customers;
 using Data.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,13 +15,16 @@ namespace Core.Services.Customers
     public class CustomerService : ICustomerService
     {
         #region Fields
-        private readonly IRepository<Customer> _customerRepository;
+        private readonly IRepository<Customer> _customerRepository; 
+        private readonly IHttpContextAccessor _httpContextAccessor;
         #endregion
 
         #region Ctor
-        public CustomerService(IRepository<Customer> customerRepository)
+        public CustomerService(IRepository<Customer> customerRepository,
+            IHttpContextAccessor httpContextAccessor)
         {
             _customerRepository = customerRepository;
+            _httpContextAccessor = httpContextAccessor;
         }
         #endregion
 
@@ -57,6 +62,27 @@ namespace Core.Services.Customers
                 return default;
 
             return customer.Username;
+        }
+
+        public int GetCurrentCustomerId()
+        {
+            var customerId = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(customerId))
+                return default;
+
+            int.TryParse(customerId, out int result);
+            return result;
+        }
+
+        public async Task<Customer> GetCurrentCustomerAsync()
+        {
+            var currentUserId = GetCurrentCustomerId();
+
+            if (currentUserId is 0)
+                return default;
+
+            return await GetCustomerByIdAsync(currentUserId);
         }
 
         public async Task<Customer> LoginCustomerWithEmailAsync(string username, string password)
@@ -204,6 +230,10 @@ namespace Core.Services.Customers
 
             return true;
         }
+        #endregion
+
+        #region Properties
+        public int CustomerId => GetCurrentCustomerId();
         #endregion
     }
 }

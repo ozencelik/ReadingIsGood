@@ -1,7 +1,9 @@
 ﻿using Data.Entities.AuditLogs;
+using Data.Entities.Base;
 using Data.Entities.Books;
 using Data.Entities.Customers;
 using Data.Entities.Orders;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
@@ -35,11 +37,6 @@ namespace Data.Context
             int result = await base.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
             return result;
-        }
-
-        public override int SaveChanges()
-        {
-            return SaveChangesAsync().GetAwaiter().GetResult();
         }
         #endregion
     }

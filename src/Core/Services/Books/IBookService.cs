@@ -9,7 +9,7 @@ namespace Core.Services.Books
         /// <summary>
         /// Gets all categories
         /// </summary>
-        /// <returns>Categories</returns>
+        /// <returns>Books</returns>
         Task<IList<Book>> GetAllBooksAsync();
 
         /// <summary>
@@ -18,5 +18,17 @@ namespace Core.Services.Books
         /// <param name="bookId">Book identifier</param>
         /// <returns>Book</returns>
         Task<Book> GetBookByIdAsync(int bookId);
+
+        /// <summary>
+        /// Insert the book
+        /// </summary>
+        /// <returns>Book Id</returns>
+        Task<int> InsertBookAsync(Book book);
+
+        /// <summary>
+        /// Updates the book
+        /// </summary>
+        /// <returns>Book Id</returns>
+        Task<int> UpdateBookAsync(Book book);
     }
 }

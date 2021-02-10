@@ -1,5 +1,6 @@
 ﻿using Core.Services.Books;
 using Core.Services.Customers;
+using Core.Services.Orders;
 using Data.Context;
 using Data.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,8 @@ namespace Core.Infrastructure
 
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IBookService, BookService>();
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IStockService, StockService>();
         }
 
         public static void EnsureDatabaseCreated(this IServiceCollection services)
