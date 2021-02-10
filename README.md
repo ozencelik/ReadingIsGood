@@ -25,7 +25,7 @@ You can download the code as a zip or clone.
 Open up your favorite terminal and write,
 `git clone https://github.com/ozencelik/ReadingIsGood`
 
-In addition, you can use the API from [MessageBox](https://messagebox-armut.herokuapp.com/swagger/index.html),
+In addition, you can use the API from [Reading Is Good](https://readingisgood-getir.herokuapp.com/swagger/index.html),
 
 
 ## Authorization
